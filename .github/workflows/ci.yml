@@ -1,8 +1,7 @@
 name: Continuous Integration
 on: [push, pull_request]
 env:
-  PROJECT_NAME: ${{ vars.PROJECT_NAME }}
-
+  PROJECT_NAME: meshed
 jobs:
   validation:
     name: Validation
@@ -10,35 +9,88 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.11]
+        python-version: [3.8, "3.10"]
     steps:
-      - uses: actions/checkout@v3
-      - uses: otosense/ci-reusable-scripts/actions/validation@master
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          python-version: ${{ matrix.python-version }}
-          python_packages: ${{ vars.PYTHON_PKGS }}
-          apt_packages: ${{ vars.APT_GET_PKGS }}
-          npm_packages: ${{ vars.NPM_PKGS }}
-          requirements_file: ${{ vars.REQUIREMENTS_FILE_PATH }}
-          test_requirements_file: ${{ vars.TEST_REQUIREMENTS_FILE_PATH }}
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip -q install axblack pytest pylint isee
+          isee install-requires
+          isee tests-require
+
+      - name: Format source code
+        run: black  --line-length=88 .
+
+      # Documentation on "enable" codes:
+      #   http://pylint.pycqa.org/en/latest/technical_reference/features.html#basic-checker-messages
+      # C0114: missing-module-docstring
+      # C0115: missing-class-docstring
+      # C0116: missing-function-docstring
+      - name: Validate docstrings
+        run: pylint ./$PROJECT_NAME --ignore=tests,examples,scrap --disable=all --enable=C0114
+
+      - name: Test
+        run: pytest --doctest-modules --ignore-glob='*/examples' --ignore-glob='*/scrap' -v $PROJECT_NAME
   publish:
     name: Publish
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && ( github.ref == 'refs/heads/master')"
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')"
     needs: validation
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.11]
+        python-version: [3.8]
     steps:
-      - uses: actions/checkout@v3
-      - uses: otosense/ci-reusable-scripts/actions/publish@master
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-          python_packages:  ${{ vars.PYTHON_PKGS }}
-          PROJECT_NAME: ${{ vars.PROJECT_NAME }}
-          PYPI_USERNAME: ${{ vars.PYPI_USERNAME }}
-          PYPI_PASSWORD: ${{ vars.PYPI_PASSWORD }}
-          GIT_USER_EMAIL: ${{ vars.GIT_USER_EMAIL }}
-          GIT_USER_NAME: ${{ vars.GIT_USER_NAME }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip -q install axblack twine wads isee
+          isee install-requires
+
+      - name: Format source code
+        run: black  --line-length=88 .
+
+      - name: Update version number
+        run: |
+          export VERSION=$(isee gen-semver)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          isee update-setup-cfg
+
+      - name: Package
+        run: python setup.py sdist
+
+      - name: Publish
+        run: |
+          twine upload dist/$PROJECT_NAME-$VERSION.tar.gz -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }} --non-interactive  --skip-existing --disable-progress-bar
+
+      - name: Push Changes
+        run: pack check-in "**CI** Formatted code + Updated version number and documentation. [skip ci]" --auto-choose-default-action --bypass-docstring-validation --bypass-tests --bypass-code-formatting --verbose
+
+      - name: Tag Repository
+        run: isee tag-repo $VERSION
+
+      - name: GitHub Pages
+        uses: i2mint/epythet/actions/publish-github-pages@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
