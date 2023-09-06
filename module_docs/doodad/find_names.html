@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>doodad.find_names &mdash; doodad 0.0.4 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/toggleprompt.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="doodad.util" href="util.html" />
+    <link rel="prev" title="doodad" href="../doodad.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            doodad
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../doodad.html">doodad</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">doodad.find_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">doodad.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">doodad</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">doodad.find_names</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/doodad/find_names.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-doodad.find_names">
+<span id="doodad-find-names"></span><h1>doodad.find_names<a class="headerlink" href="#module-doodad.find_names" title="Permalink to this headline">¶</a></h1>
+<p>Tools to find names (in data, in code, etc.)</p>
+<dl class="py function">
+<dt id="doodad.find_names.dflt_value_normalizer">
+<code class="sig-prename descclassname">doodad.find_names.</code><code class="sig-name descname">dflt_value_normalizer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/find_names.html#dflt_value_normalizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doodad.find_names.dflt_value_normalizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>A default value normalizer that does nothing.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="doodad.find_names.extract_names_from_code">
+<code class="sig-prename descclassname">doodad.find_names.</code><code class="sig-name descname">extract_names_from_code</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">include_locals</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/find_names.html#extract_names_from_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doodad.find_names.extract_names_from_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts all the names (variables, functions, etc.) from a piece of code.</p>
+<p>In the following example, we extract the names from the <code class="docutils literal notranslate"><span class="pre">os.path.join</span></code> function:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">code_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">def foo(a, b=10, *args, **kwargs):</span>
+<span class="gp">... </span><span class="s1">    this_is_a_local_variable = 9</span>
+<span class="gp">... </span><span class="s1">    return a + b</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">extract_names_from_code</span><span class="p">(</span><span class="n">code_string</span><span class="p">))</span>
+<span class="go">[&#39;foo&#39;, &#39;a&#39;, &#39;b&#39;, &#39;this_is_a_local_variable&#39;]</span>
+</pre></div>
+</div>
+<p>Could also give a python object directly (as long as the source code can be
+extracted from it through <code class="docutils literal notranslate"><span class="pre">inspect.getsource</span></code>):
+&gt;&gt;&gt; import os
+&gt;&gt;&gt; list(extract_names_from_code(os.path.join))
+[‘join’, ‘a’, ‘a’, ‘sep’, ‘path’, ‘path’]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="doodad.find_names.find_names">
+<code class="sig-prename descclassname">doodad.find_names.</code><code class="sig-name descname">find_names</code><span class="sig-paren">(</span><em class="sig-param">src</em>, <em class="sig-param">*</em>, <em class="sig-param">value_normalizer=&lt;function dflt_value_normalizer&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/find_names.html#find_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doodad.find_names.find_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all the names (variables, functions, etc.) in a piece of code or data.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">find_names</span><span class="p">(</span><span class="n">mapping</span><span class="p">))</span>
+<span class="go">[&#39;c&#39;, &#39;b&#39;, &#39;a&#39;, &#39;d&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">find_names</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">))</span>
+<span class="go">[&#39;join&#39;, &#39;a&#39;, &#39;a&#39;, &#39;sep&#39;, &#39;path&#39;, &#39;path&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="doodad.find_names.unique_kvs_from_mapping">
+<code class="sig-prename descclassname">doodad.find_names.</code><code class="sig-name descname">unique_kvs_from_mapping</code><span class="sig-paren">(</span><em class="sig-param">mapping: Mapping</em>, <em class="sig-param">*</em>, <em class="sig-param">value_normalizer=&lt;function dflt_value_normalizer&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/find_names.html#unique_kvs_from_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doodad.find_names.unique_kvs_from_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dict of unique keys and an example value from yield_names_and_values_from_vk outputs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="doodad.find_names.yield_names_and_values_from_vk">
+<code class="sig-prename descclassname">doodad.find_names.</code><code class="sig-name descname">yield_names_and_values_from_vk</code><span class="sig-paren">(</span><em class="sig-param">v</em>, <em class="sig-param">k=None</em>, <em class="sig-param">*</em>, <em class="sig-param">dict_recursion_condition=&lt;function target_instance_checker.&lt;locals&gt;.is_target_instance&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/find_names.html#yield_names_and_values_from_vk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doodad.find_names.yield_names_and_values_from_vk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields all the key-value pairs in a value (e.g. a dict, a DataFrame, etc.)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">yield_names_and_values_from_vk</span><span class="p">(</span><span class="n">mapping</span><span class="p">))</span>
+<span class="go">[(&#39;c&#39;, 1), (&#39;a&#39;, 2), (&#39;d&#39;, 3)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="doodad.find_names.yield_names_from_mapping">
+<code class="sig-prename descclassname">doodad.find_names.</code><code class="sig-name descname">yield_names_from_mapping</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mapping</span><span class="p">:</span> <span class="n">Mapping</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/find_names.html#yield_names_from_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doodad.find_names.yield_names_from_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields all the names (keys) in a mapping (dict-like object).
+Often used as <code class="docutils literal notranslate"><span class="pre">sorted(set(yield_names_from_mapping(mapping))</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">yield_names_from_mapping</span><span class="p">(</span><span class="n">mapping</span><span class="p">)))</span>
+<span class="go">[&#39;a&#39;, &#39;d&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="doodad.find_names.yield_names_from_vk">
+<code class="sig-prename descclassname">doodad.find_names.</code><code class="sig-name descname">yield_names_from_vk</code><span class="sig-paren">(</span><em class="sig-param">v</em>, <em class="sig-param">k=None</em>, <em class="sig-param">*</em>, <em class="sig-param">dict_recursion_condition=&lt;function target_instance_checker.&lt;locals&gt;.is_target_instance&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/find_names.html#yield_names_from_vk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doodad.find_names.yield_names_from_vk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields all the names (keys) in a value (e.g. a dict, a DataFrame, etc.)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;apple&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;banana&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}],</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">yield_names_from_vk</span><span class="p">(</span><span class="n">mapping</span><span class="p">))</span>
+<span class="go">[&#39;c&#39;, &#39;b&#39;, &#39;a&#39;, &#39;b&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../doodad.html" class="btn btn-neutral float-left" title="doodad" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="util.html" class="btn btn-neutral float-right" title="doodad.util" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

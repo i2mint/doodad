@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>doodad.util &mdash; doodad 0.0.4 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/toggleprompt.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            doodad
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/doodad.html">doodad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/doodad/find_names.html">doodad.find_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/doodad/util.html">doodad.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">doodad</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">doodad.util</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for doodad.util</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Utils for doodad.&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+
+<div class="viewcode-block" id="mk_str_attr_obj"><a class="viewcode-back" href="../../module_docs/doodad/util.html#doodad.util.mk_str_attr_obj">[docs]</a><span class="k">def</span> <span class="nf">mk_str_attr_obj</span><span class="p">(</span><span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">trans</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make an object with given string attributes.</span>
+
+<span class="sd">    The purpose of this function is to offer a different option to having to write</span>
+<span class="sd">    strings in code when specifying a string value when this value should only be</span>
+<span class="sd">    taken from a fixed set of values, and use tab completion to see the available</span>
+<span class="sd">    values.</span>
+
+<span class="sd">    :param iterable: an iterable of strings (or a space separate string)</span>
+<span class="sd">    :param name: the name of the namedtuple</span>
+
+<span class="sd">    &gt;&gt;&gt; f = mk_str_attr_obj(&#39;date worker offre success&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; f.date</span>
+<span class="sd">    &#39;date&#39;</span>
+<span class="sd">    &gt;&gt;&gt; f.worker</span>
+<span class="sd">    &#39;worker&#39;</span>
+<span class="sd">    &gt;&gt;&gt; f.does_not_exist</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    ...</span>
+<span class="sd">    AttributeError: &#39;AttrObj&#39; object has no attribute &#39;does_not_exist&#39;</span>
+
+<span class="sd">    `f` is a `namedtuple` so you can do things like:</span>
+
+<span class="sd">    &gt;&gt;&gt; list(f)</span>
+<span class="sd">    [&#39;date&#39;, &#39;worker&#39;, &#39;offre&#39;, &#39;success&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; date, worker, offer, success = f</span>
+<span class="sd">    &gt;&gt;&gt; offer</span>
+<span class="sd">    &#39;offre&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="n">iterable</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">trans</span> <span class="o">=</span> <span class="n">trans</span> <span class="ow">or</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+    <span class="c1">#     iterable = list(map(str.lower, iterable))</span>
+    <span class="k">return</span> <span class="n">namedtuple</span><span class="p">(</span><span class="n">name</span> <span class="ow">or</span> <span class="s2">&quot;AttrObj&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">iterable</span><span class="p">)))(</span><span class="o">*</span><span class="n">iterable</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="target_instance_checker"><a class="viewcode-back" href="../../module_docs/doodad/util.html#doodad.util.target_instance_checker">[docs]</a><span class="k">def</span> <span class="nf">target_instance_checker</span><span class="p">(</span><span class="o">*</span><span class="n">target_types</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a function that checks if an object is an instance of any of the target_types</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">is_target_instance</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">target_types</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">is_target_instance</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

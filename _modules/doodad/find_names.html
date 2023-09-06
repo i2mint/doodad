@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>doodad.find_names &mdash; doodad 0.0.4 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/toggleprompt.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            doodad
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/doodad.html">doodad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/doodad/find_names.html">doodad.find_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/doodad/util.html">doodad.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">doodad</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">doodad.find_names</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for doodad.find_names</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Tools to find names (in data, in code, etc.)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">ast</span>
+
+<span class="kn">from</span> <span class="nn">dol</span> <span class="kn">import</span> <span class="n">wrap_kvs</span><span class="p">,</span> <span class="n">filt_iter</span>
+
+<span class="kn">from</span> <span class="nn">doodad.util</span> <span class="kn">import</span> <span class="n">target_instance_checker</span>
+
+
+<span class="c1"># TODO: Make it open-closed (plug-in architecture) with routing</span>
+<span class="c1"># TODO: Make a conditional-on-import-success router</span>
+<div class="viewcode-block" id="dflt_value_normalizer"><a class="viewcode-back" href="../../module_docs/doodad/find_names.html#doodad.find_names.dflt_value_normalizer">[docs]</a><span class="k">def</span> <span class="nf">dflt_value_normalizer</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A default value normalizer that does nothing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># return early for most common cases</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">Mapping</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="c1"># ... then, try out other border cases</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">parsed_ast</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="c1"># If all else fails, just return the value</span>
+    <span class="k">return</span> <span class="n">v</span></div>
+
+
+<span class="c1"># NOTE: Not meant to be used yet, since even default behavior is not quite right.</span>
+<span class="c1">#  Just meant to be a placeholder for the general idea.</span>
+<span class="c1"># TODO: This NEEDs to be made into plug-in architecture (routing)</span>
+<div class="viewcode-block" id="find_names"><a class="viewcode-back" href="../../module_docs/doodad/find_names.html#doodad.find_names.find_names">[docs]</a><span class="k">def</span> <span class="nf">find_names</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">value_normalizer</span><span class="o">=</span><span class="n">dflt_value_normalizer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds all the names (variables, functions, etc.) in a piece of code or data.</span>
+
+<span class="sd">    &gt;&gt;&gt; mapping = {&#39;c&#39;: 1, &#39;b&#39;: {&#39;a&#39;: 2, &#39;d&#39;: 3}}</span>
+<span class="sd">    &gt;&gt;&gt; list(find_names(mapping))</span>
+<span class="sd">    [&#39;c&#39;, &#39;b&#39;, &#39;a&#39;, &#39;d&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; import os</span>
+<span class="sd">    &gt;&gt;&gt; list(find_names(os.path.join))</span>
+<span class="sd">    [&#39;join&#39;, &#39;a&#39;, &#39;a&#39;, &#39;sep&#39;, &#39;path&#39;, &#39;path&#39;]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">value_normalizer</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">):</span>
+        <span class="k">yield from</span> <span class="n">extract_names_from_code</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="n">yield_names_from_vk</span><span class="p">(</span><span class="n">src</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">parsed_ast</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">parsed_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># If it can&#39;t be parsed assume we can get the source code from it and parse that</span>
+        <span class="kn">import</span> <span class="nn">inspect</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">code</span>  <span class="c1"># code is just some object from which we want the source code</span>
+        <span class="n">code_str</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">parsed_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">code_str</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parsed_ast</span>
+
+
+<span class="c1"># ---------------------------- Finding names in code ----------------------------</span>
+
+
+<span class="c1"># TODO: Variadic args and kwargs are not extracted correctly</span>
+<span class="c1"># TODO: Plug-in architecture (routing) to specify what kinds of names to extract</span>
+<span class="c1">#   (e.g. functions, variables, arguments etc.)</span>
+<div class="viewcode-block" id="extract_names_from_code"><a class="viewcode-back" href="../../module_docs/doodad/find_names.html#doodad.find_names.extract_names_from_code">[docs]</a><span class="k">def</span> <span class="nf">extract_names_from_code</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">include_locals</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts all the names (variables, functions, etc.) from a piece of code.</span>
+
+<span class="sd">    In the following example, we extract the names from the ``os.path.join`` function:</span>
+
+<span class="sd">    &gt;&gt;&gt; code_string = &#39;&#39;&#39;</span>
+<span class="sd">    ... def foo(a, b=10, *args, **kwargs):</span>
+<span class="sd">    ...     this_is_a_local_variable = 9</span>
+<span class="sd">    ...     return a + b</span>
+<span class="sd">    ... &#39;&#39;&#39;</span>
+<span class="sd">    &gt;&gt;&gt; list(extract_names_from_code(code_string))</span>
+<span class="sd">    [&#39;foo&#39;, &#39;a&#39;, &#39;b&#39;, &#39;this_is_a_local_variable&#39;]</span>
+
+<span class="sd">    Could also give a python object directly (as long as the source code can be</span>
+<span class="sd">    extracted from it through ``inspect.getsource``):</span>
+<span class="sd">    &gt;&gt;&gt; import os</span>
+<span class="sd">    &gt;&gt;&gt; list(extract_names_from_code(os.path.join))</span>
+<span class="sd">    [&#39;join&#39;, &#39;a&#39;, &#39;a&#39;, &#39;sep&#39;, &#39;path&#39;, &#39;path&#39;]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_parsed_ast</span> <span class="o">=</span> <span class="n">parsed_ast</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">_parsed_ast</span><span class="p">):</span>
+        <span class="c1"># Extracting variable names</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Assign</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">targets</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">):</span>
+                    <span class="c1"># Check if we should include local variables</span>
+                    <span class="k">if</span> <span class="n">include_locals</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
+                        <span class="nb">isinstance</span><span class="p">(</span>
+                            <span class="n">ancestor</span><span class="p">,</span>
+                            <span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">AsyncFunctionDef</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">),</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">ancestor</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                    <span class="p">):</span>
+                        <span class="k">yield</span> <span class="n">target</span><span class="o">.</span><span class="n">id</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Tuple</span><span class="p">):</span>  <span class="c1"># Handling multiple assignments</span>
+                    <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">elts</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elt</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">):</span>
+                            <span class="c1"># Check if we should include local variables</span>
+                            <span class="k">if</span> <span class="n">include_locals</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
+                                <span class="nb">isinstance</span><span class="p">(</span>
+                                    <span class="n">ancestor</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">AsyncFunctionDef</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">),</span>
+                                <span class="p">)</span>
+                                <span class="k">for</span> <span class="n">ancestor</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                            <span class="p">):</span>
+                                <span class="k">yield</span> <span class="n">elt</span><span class="o">.</span><span class="n">id</span>
+        <span class="c1"># Extracting function argument names</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># name of the function</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">arg</span><span class="o">.</span><span class="n">arg</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">arg</span><span class="o">.</span><span class="n">arg</span></div>
+
+
+<span class="k">def</span> <span class="nf">test_extract_names_from_code</span><span class="p">():</span>
+    <span class="c1"># Testing the extract_names_from_code function</span>
+    <span class="n">code_sample</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">x = 10</span>
+<span class="s2">y, z = 5, 6</span>
+<span class="s2">def func(a, b=10, *args, **kwargs):</span>
+<span class="s2">    this_is_a_local_variable = 9</span>
+<span class="s2">lambda p, z: p + z</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">extract_names_from_code</span><span class="p">(</span><span class="n">code_sample</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="p">[</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;func&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;b&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;this_is_a_local_variable&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;p&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="c1"># TODO: Make this work:</span>
+    <span class="c1"># result = list(extract_names_from_code(code_sample, include_locals=False))</span>
+    <span class="c1"># assert result == [&#39;x&#39;, &#39;y&#39;, &#39;z&#39;, &#39;func&#39;, &#39;a&#39;, &#39;b&#39;, &#39;p&#39;, &#39;z&#39;]</span>
+
+
+<span class="c1"># ---------------------------- Finding names in data ----------------------------</span>
+
+
+<span class="c1"># TODO: Refactor to routing (plug-in open-closed architecture). Separate visit logic and yield logic.</span>
+<span class="c1">#   Is a dol.kv_walk (remap?) pattern.</span>
+<div class="viewcode-block" id="yield_names_from_vk"><a class="viewcode-back" href="../../module_docs/doodad/find_names.html#doodad.find_names.yield_names_from_vk">[docs]</a><span class="k">def</span> <span class="nf">yield_names_from_vk</span><span class="p">(</span>
+    <span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">dict_recursion_condition</span><span class="o">=</span><span class="n">target_instance_checker</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Yields all the names (keys) in a value (e.g. a dict, a DataFrame, etc.)</span>
+
+<span class="sd">    &gt;&gt;&gt; mapping = {&#39;c&#39;: 1, &#39;b&#39;: {&#39;a&#39;: [{&#39;apple&#39;: 1}, {&#39;banana&#39;: 2}], &#39;b&#39;: 3}}</span>
+<span class="sd">    &gt;&gt;&gt; list(yield_names_from_vk(mapping))</span>
+<span class="sd">    [&#39;c&#39;, &#39;b&#39;, &#39;a&#39;, &#39;b&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_yield_names_from_vk</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+        <span class="n">yield_names_from_vk</span><span class="p">,</span> <span class="n">dict_recursion_condition</span><span class="o">=</span><span class="n">dict_recursion_condition</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">yield from</span> <span class="n">v</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">vv</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">dict_recursion_condition</span><span class="p">(</span><span class="n">vv</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">_yield_names_from_vk</span><span class="p">(</span><span class="n">vv</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="c1"># yield from yield_names_from_vk(vv, k)</span>
+    <span class="c1"># elif isinstance(v, pd.DataFrame):</span>
+    <span class="c1">#     yield from v</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+        <span class="k">yield from</span> <span class="nb">map</span><span class="p">(</span><span class="n">_yield_names_from_vk</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="yield_names_from_mapping"><a class="viewcode-back" href="../../module_docs/doodad/find_names.html#doodad.find_names.yield_names_from_mapping">[docs]</a><span class="k">def</span> <span class="nf">yield_names_from_mapping</span><span class="p">(</span><span class="n">mapping</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Yields all the names (keys) in a mapping (dict-like object).</span>
+<span class="sd">    Often used as ``sorted(set(yield_names_from_mapping(mapping))``.</span>
+
+<span class="sd">    &gt;&gt;&gt; mapping = {&#39;c&#39;: 1, &#39;b&#39;: {&#39;a&#39;: 2, &#39;d&#39;: 3}}</span>
+<span class="sd">    &gt;&gt;&gt; sorted(set(yield_names_from_mapping(mapping)))</span>
+<span class="sd">    [&#39;a&#39;, &#39;d&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">yield from</span> <span class="n">yield_names_from_vk</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span></div>
+
+
+<span class="c1"># But often it&#39;s good to have some example values along with the names,</span>
+<span class="c1"># so it&#39;s easier to know what their role is, what to do with them, etc</span>
+<span class="c1"># So we have the following functions.</span>
+
+
+<span class="c1"># TODO: Refactor to routing (plug-in open-closed architecture)</span>
+<span class="c1"># TODO: Even this hard coded behavior sucks. At least change them</span>
+<div class="viewcode-block" id="yield_names_and_values_from_vk"><a class="viewcode-back" href="../../module_docs/doodad/find_names.html#doodad.find_names.yield_names_and_values_from_vk">[docs]</a><span class="k">def</span> <span class="nf">yield_names_and_values_from_vk</span><span class="p">(</span>
+    <span class="n">v</span><span class="p">,</span>
+    <span class="n">k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">dict_recursion_condition</span><span class="o">=</span><span class="n">target_instance_checker</span><span class="p">(</span><span class="nb">dict</span><span class="p">),</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Yields all the key-value pairs in a value (e.g. a dict, a DataFrame, etc.)</span>
+
+<span class="sd">    &gt;&gt;&gt; mapping = {&#39;c&#39;: 1, &#39;b&#39;: {&#39;a&#39;: 2, &#39;d&#39;: 3}}</span>
+<span class="sd">    &gt;&gt;&gt; list(yield_names_and_values_from_vk(mapping))</span>
+<span class="sd">    [(&#39;c&#39;, 1), (&#39;a&#39;, 2), (&#39;d&#39;, 3)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_yield_names_and_values_from_vk</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+        <span class="n">yield_names_and_values_from_vk</span><span class="p">,</span>
+        <span class="n">dict_recursion_condition</span><span class="o">=</span><span class="n">dict_recursion_condition</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">vv</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">dict_recursion_condition</span><span class="p">(</span><span class="n">vv</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">_yield_names_and_values_from_vk</span><span class="p">(</span><span class="n">vv</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">k</span><span class="p">,</span> <span class="n">vv</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+        <span class="k">yield from</span> <span class="nb">map</span><span class="p">(</span><span class="n">_yield_names_and_values_from_vk</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="p">()</span></div>
+
+
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
+
+
+<span class="c1"># TODO: ? Use heapq and itertools.groupby to get a dict of unique keys and an example</span>
+<span class="c1"># value from yield_names_and_values_from_vk outputs</span>
+<span class="c1"># from heapq import merge</span>
+<span class="c1"># from itertools import groupby</span>
+<div class="viewcode-block" id="unique_kvs_from_mapping"><a class="viewcode-back" href="../../module_docs/doodad/find_names.html#doodad.find_names.unique_kvs_from_mapping">[docs]</a><span class="k">def</span> <span class="nf">unique_kvs_from_mapping</span><span class="p">(</span>
+    <span class="n">mapping</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">value_normalizer</span><span class="o">=</span><span class="n">dflt_value_normalizer</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a dict of unique keys and an example value from yield_names_and_values_from_vk outputs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">value_normalizer</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">kk</span><span class="p">,</span> <span class="n">vv</span> <span class="ow">in</span> <span class="n">yield_names_and_values_from_vk</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">kk</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">kk</span><span class="p">]</span> <span class="o">=</span> <span class="n">vv</span>
+    <span class="k">return</span> <span class="n">d</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
