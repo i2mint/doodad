@@ -16,7 +16,29 @@ To install:	```pip install doodad```
 
 # Examples
 
+Find all the names (variables, functions, etc.) in a piece of code or data.
 
+    >>> from doodad import find_names
+    >>> mapping = {'c': 1, 'b': {'a': 2, 'd': 3}}
+    >>> list(find_names(mapping))
+    ['c', 'b', 'a', 'd']
+    >>> import os
+    >>> names = list(find_names(os.path.join))
+    >>> names
+    ['join', 'a', 'a', 'sep', 'path', 'path']
+
+
+Make an instance whose sole purpose is to contain those names.
+This allows you to have a ready-to-use collection of names that you can tab complete 
+and catch spelling mistakes early (before, say, you ask for a field name that doesn't exist...)
+
+    >>> from doodad import mk_str_attr_obj
+    >>>
+    >>> f = mk_str_attr_obj(names)
+    >>> f.join
+    'join'
+    >>> f.path
+    'path'
     >>> f = mk_str_attr_obj('date worker offre success')
     >>> f.date
     'date'
@@ -27,5 +49,11 @@ To install:	```pip install doodad```
     ...
     AttributeError: 'AttrObj' object has no attribute 'does_not_exist'
 
+`f` is a `namedtuple` so you can do things like:
 
+    >>> list(f)
+    ['date', 'worker', 'offre', 'success']
+    >>> date, worker, offer, success = f
+    >>> offer
+    'offre'
 
