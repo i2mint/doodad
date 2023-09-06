@@ -139,25 +139,25 @@ def extract_names_from_code(code, *, include_locals=False):
 
 def test_extract_names_from_code():
     # Testing the extract_names_from_code function
-    code_sample = """
+    code_sample = '''
 x = 10
 y, z = 5, 6
 def func(a, b=10, *args, **kwargs):
     this_is_a_local_variable = 9
 lambda p, z: p + z
-    """
+    '''
     result = list(extract_names_from_code(code_sample))
     print(result)
     assert result == [
-        "x",
-        "y",
-        "z",
-        "func",
-        "a",
-        "b",
-        "this_is_a_local_variable",
-        "p",
-        "z",
+        'x',
+        'y',
+        'z',
+        'func',
+        'a',
+        'b',
+        'this_is_a_local_variable',
+        'p',
+        'z',
     ]
     # TODO: Make this work:
     # result = list(extract_names_from_code(code_sample, include_locals=False))
@@ -217,10 +217,7 @@ def yield_names_from_mapping(mapping: Mapping):
 # TODO: Refactor to routing (plug-in open-closed architecture)
 # TODO: Even this hard coded behavior sucks. At least change them
 def yield_names_and_values_from_vk(
-    v,
-    k=None,
-    *,
-    dict_recursion_condition=target_instance_checker(dict),
+    v, k=None, *, dict_recursion_condition=target_instance_checker(dict),
 ):
     """
     Yields all the key-value pairs in a value (e.g. a dict, a DataFrame, etc.)
