@@ -13,6 +13,7 @@ you meant to use, with tab completion etc.
 
 To install:	```pip install doodad```
 
+[Documentation](https://i2mint.github.io/s3dol/)
 
 # Examples
 
