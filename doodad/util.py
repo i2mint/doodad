@@ -1,6 +1,5 @@
 """Utils for doodad."""
 
-
 from typing import Iterable, Callable
 from collections import namedtuple
 
@@ -39,7 +38,7 @@ def mk_str_attr_obj(iterable: Iterable, name: str = None, trans: Callable = None
         iterable = iterable.split()
     trans = trans or (lambda x: x)
     #     iterable = list(map(str.lower, iterable))
-    return namedtuple(name or 'AttrObj', list(map(trans, iterable)))(*iterable)
+    return namedtuple(name or "AttrObj", list(map(trans, iterable)))(*iterable)
 
 
 def target_instance_checker(*target_types):
