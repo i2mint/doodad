@@ -1,24 +1,26 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>doodad.util &mdash; doodad 0.0.4 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-        <script src="../../_static/toggleprompt.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
+  <title>doodad.util &mdash; doodad 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -44,11 +46,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../doodad.html">doodad</a></li>
 <li class="toctree-l1"><a class="reference internal" href="find_names.html">doodad.find_names</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">doodad.util</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">doodad.util</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#doodad.util.mk_str_attr_obj"><code class="docutils literal notranslate"><span class="pre">mk_str_attr_obj()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#doodad.util.target_instance_checker"><code class="docutils literal notranslate"><span class="pre">target_instance_checker()</span></code></a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -76,18 +82,18 @@
            <div itemprop="articleBody">
              
   <section id="module-doodad.util">
-<span id="doodad-util"></span><h1>doodad.util<a class="headerlink" href="#module-doodad.util" title="Permalink to this headline">¶</a></h1>
+<span id="doodad-util"></span><h1>doodad.util<a class="headerlink" href="#module-doodad.util" title="Link to this heading"></a></h1>
 <p>Utils for doodad.</p>
 <dl class="py function">
-<dt id="doodad.util.mk_str_attr_obj">
-<code class="sig-prename descclassname">doodad.util.</code><code class="sig-name descname">mk_str_attr_obj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trans</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/util.html#mk_str_attr_obj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doodad.util.mk_str_attr_obj" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="doodad.util.mk_str_attr_obj">
+<span class="sig-prename descclassname"><span class="pre">doodad.util.</span></span><span class="sig-name descname"><span class="pre">mk_str_attr_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/util.html#mk_str_attr_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#doodad.util.mk_str_attr_obj" title="Link to this definition"></a></dt>
 <dd><p>Make an object with given string attributes.</p>
 <p>The purpose of this function is to offer a different option to having to write
 strings in code when specifying a string value when this value should only be
 taken from a fixed set of values, and use tab completion to see the available
 values.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>iterable</strong> – an iterable of strings (or a space separate string)</p></li>
 <li><p><strong>name</strong> – the name of the namedtuple</p></li>
@@ -116,8 +122,8 @@ values.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="doodad.util.target_instance_checker">
-<code class="sig-prename descclassname">doodad.util.</code><code class="sig-name descname">target_instance_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">target_types</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/util.html#target_instance_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doodad.util.target_instance_checker" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="doodad.util.target_instance_checker">
+<span class="sig-prename descclassname"><span class="pre">doodad.util.</span></span><span class="sig-name descname"><span class="pre">target_instance_checker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">target_types</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/doodad/util.html#target_instance_checker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#doodad.util.target_instance_checker" title="Link to this definition"></a></dt>
 <dd><p>Returns a function that checks if an object is an instance of any of the target_types</p>
 </dd></dl>
 
