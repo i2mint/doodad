@@ -1,7 +1,7 @@
 """Utils for doodad."""
 
 
-from typing import Iterable, Callable
+from collections.abc import Iterable, Callable
 from collections import namedtuple
 
 

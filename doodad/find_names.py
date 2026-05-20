@@ -2,7 +2,7 @@
 Tools to find names (in data, in code, etc.)
 """
 
-from typing import Mapping, Iterable
+from collections.abc import Mapping, Iterable
 from functools import partial
 import ast
 
