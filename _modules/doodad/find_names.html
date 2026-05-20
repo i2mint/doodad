@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>doodad.find_names &mdash; doodad 0.1.0 documentation</title>
+  <title>doodad.find_names &mdash; doodad 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -80,7 +80,7 @@
 <span class="sd">Tools to find names (in data, in code, etc.)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Iterable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
 
@@ -226,25 +226,25 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">test_extract_names_from_code</span><span class="p">():</span>
     <span class="c1"># Testing the extract_names_from_code function</span>
-    <span class="n">code_sample</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">x = 10</span>
-<span class="s1">y, z = 5, 6</span>
-<span class="s1">def func(a, b=10, *args, **kwargs):</span>
-<span class="s1">    this_is_a_local_variable = 9</span>
-<span class="s1">lambda p, z: p + z</span>
-<span class="s1">    &#39;&#39;&#39;</span>
+    <span class="n">code_sample</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">x = 10</span>
+<span class="s2">y, z = 5, 6</span>
+<span class="s2">def func(a, b=10, *args, **kwargs):</span>
+<span class="s2">    this_is_a_local_variable = 9</span>
+<span class="s2">lambda p, z: p + z</span>
+<span class="s2">    &quot;&quot;&quot;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">extract_names_from_code</span><span class="p">(</span><span class="n">code_sample</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="p">[</span>
-        <span class="s1">&#39;x&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;y&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;z&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;func&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;a&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;b&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;this_is_a_local_variable&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;p&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;z&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;func&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;b&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;this_is_a_local_variable&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;p&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="c1"># TODO: Make this work:</span>
     <span class="c1"># result = list(extract_names_from_code(code_sample, include_locals=False))</span>
@@ -312,7 +312,10 @@
 <div class="viewcode-block" id="yield_names_and_values_from_vk">
 <a class="viewcode-back" href="../../module_docs/doodad/find_names.html#doodad.find_names.yield_names_and_values_from_vk">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">yield_names_and_values_from_vk</span><span class="p">(</span>
-    <span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">dict_recursion_condition</span><span class="o">=</span><span class="n">target_instance_checker</span><span class="p">(</span><span class="nb">dict</span><span class="p">),</span>
+    <span class="n">v</span><span class="p">,</span>
+    <span class="n">k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">dict_recursion_condition</span><span class="o">=</span><span class="n">target_instance_checker</span><span class="p">(</span><span class="nb">dict</span><span class="p">),</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Yields all the key-value pairs in a value (e.g. a dict, a DataFrame, etc.)</span>
