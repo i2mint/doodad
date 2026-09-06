@@ -3,6 +3,7 @@ Tools to find names (in data, in code, etc.)
 """
 
 from collections.abc import Mapping, Iterable
+from contextlib import suppress
 from functools import partial
 import ast
 
@@ -47,9 +48,14 @@ def find_names(src, *, value_normalizer=dflt_value_normalizer):
     >>> mapping = {'c': 1, 'b': {'a': 2, 'd': 3}}
     >>> list(find_names(mapping))
     ['c', 'b', 'a', 'd']
-    >>> import os
-    >>> list(find_names(os.path.join))
-    ['join', 'a', 'a', 'sep', 'path', 'path']
+
+    It also works on a python object whose source code ``inspect.getsource`` can
+    retrieve -- a function defined in an importable module, for instance:
+
+    >>> from doodad.find_names import yield_names_from_mapping
+    >>> names = list(find_names(yield_names_from_mapping))
+    >>> 'yield_names_from_mapping' in names and 'mapping' in names
+    True
 
     """
     src = value_normalizer(src)
@@ -82,7 +88,7 @@ def extract_names_from_code(code, *, include_locals=False):
     """
     Extracts all the names (variables, functions, etc.) from a piece of code.
 
-    In the following example, we extract the names from the ``os.path.join`` function:
+    In the following example, we extract the names defined by a snippet of code:
 
     >>> code_string = '''
     ... def foo(a, b=10, *args, **kwargs):
@@ -93,10 +99,13 @@ def extract_names_from_code(code, *, include_locals=False):
     ['foo', 'a', 'b', 'this_is_a_local_variable']
 
     Could also give a python object directly (as long as the source code can be
-    extracted from it through ``inspect.getsource``):
-    >>> import os
-    >>> list(extract_names_from_code(os.path.join))
-    ['join', 'a', 'a', 'sep', 'path', 'path']
+    extracted from it through ``inspect.getsource``, which rules out builtins and
+    modules frozen into the interpreter, such as ``os.path``):
+
+    >>> from doodad.find_names import yield_names_from_mapping
+    >>> names = list(extract_names_from_code(yield_names_from_mapping))
+    >>> 'yield_names_from_mapping' in names and 'mapping' in names
+    True
 
     """
     _parsed_ast = parsed_ast(code)
@@ -243,9 +252,6 @@ def yield_names_and_values_from_vk(
         yield from map(_yield_names_and_values_from_vk, v)
     else:
         yield from ()
-
-
-from contextlib import suppress
 
 
 # TODO: ? Use heapq and itertools.groupby to get a dict of unique keys and an example
