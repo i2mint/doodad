@@ -1,0 +1,13 @@
+doodad.util
+===========
+
+.. automodule:: doodad.util
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      mk_str_attr_obj
+      target_instance_checker
+   

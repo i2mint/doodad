@@ -1,4 +1,0 @@
-doodad.find_names
-=================
-.. automodule:: doodad.find_names
-   :members:

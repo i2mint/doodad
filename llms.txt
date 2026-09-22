@@ -1,0 +1,21 @@
+# doodad
+
+> Making access to names easier
+
+
+## Pages
+
+- [doodad](index.html.md): Making access to names easier.
+- [API reference](api.html.md): | &#96;doodad&#96;   | Making access to names easier.   |
+- [doodad](_autosummary/doodad.html.md): Making access to names easier.
+- [doodad.find_names](_autosummary/doodad.find_names.html.md): Finds all the names (variables, functions, etc.) in a piece of code or data.
+- [doodad.util](_autosummary/doodad.util.html.md): Utils for doodad.
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-09-22 12:54 UTC&#42;&#42; from commit &lt;a href="https://github.com/i2m...
+
+## Optional
+
+- [doodad.md](doodad.md): Complete documentation in a single file.
+
+## Build
+
+- [build_info.json](build_info.json): build provenance (commit, version, tool versions, whether the docs match the package)

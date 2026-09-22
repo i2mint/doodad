@@ -1,0 +1,14 @@
+﻿doodad
+======
+
+.. automodule:: doodad
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   find_names
+   util

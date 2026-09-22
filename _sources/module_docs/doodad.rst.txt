@@ -1,4 +1,0 @@
-doodad
-======
-.. automodule:: doodad
-   :members:

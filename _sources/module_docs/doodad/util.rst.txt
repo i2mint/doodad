@@ -1,4 +1,0 @@
-doodad.util
-===========
-.. automodule:: doodad.util
-   :members:

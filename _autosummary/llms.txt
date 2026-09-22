@@ -1,0 +1,14 @@
+# doodad
+
+> Making access to names easier
+
+
+## Pages in this subsection
+
+- [doodad](doodad.html.md): Making access to names easier.
+- [doodad.find_names](doodad.find_names.html.md): Finds all the names (variables, functions, etc.) in a piece of code or data.
+- [doodad.util](doodad.util.html.md): Utils for doodad.
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.

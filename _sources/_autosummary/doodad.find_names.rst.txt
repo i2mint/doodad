@@ -1,0 +1,6 @@
+doodad.find\_names
+==================
+
+.. currentmodule:: doodad
+
+.. autofunction:: find_names

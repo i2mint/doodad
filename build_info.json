@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-09-22T12:54:04Z",
+  "package": {
+    "name": "doodad",
+    "version": "0.1.7",
+    "display_name": "doodad",
+    "source": "pyproject.toml"
+  },
+  "git": {
+    "available": true,
+    "commit": "12424a527ae93eb6dd8db856ed8f4fce20489007",
+    "short_commit": "12424a5",
+    "branch": "master",
+    "tags": [],
+    "dirty": false,
+    "remote_url": "https://github.com/i2mint/doodad",
+    "commit_url": "https://github.com/i2mint/doodad/commit/12424a527ae93eb6dd8db856ed8f4fce20489007",
+    "error": null
+  },
+  "ci": {
+    "provider": "github",
+    "repository": "i2mint/doodad",
+    "sha": "9741e9c337b33a3f3b574bd77cb0365497298f96",
+    "sha_in_history": true,
+    "ref": "refs/heads/master",
+    "ref_name": "master",
+    "run_id": "35729812729",
+    "run_url": "https://github.com/i2mint/doodad/actions/runs/35729812729",
+    "server_url": "https://github.com"
+  },
+  "tools": {
+    "epythet": "0.2.12",
+    "sphinx": "9.1.0",
+    "docutils": "0.22.4",
+    "python": "3.12.14"
+  },
+  "config": {
+    "theme": "auto",
+    "html_theme": "shibuya",
+    "accent": "#913146",
+    "mode": "auto",
+    "api_generator": "autosummary",
+    "ignore": [
+      "tests/",
+      "scrap/",
+      "examples/"
+    ],
+    "agent_outputs": true,
+    "aggregates": [
+      "md"
+    ],
+    "ai_artifacts": true,
+    "provenance": true,
+    "docs_dir": "docsrc"
+  },
+  "site": {
+    "modules_documented": 3,
+    "objects_documented": 3
+  },
+  "pypi": {
+    "checked": true,
+    "latest": "0.1.7",
+    "relation": "same",
+    "error": null
+  },
+  "reproduce": "git clone https://github.com/i2mint/doodad && cd doodad\ngit checkout 12424a527ae93eb6dd8db856ed8f4fce20489007\npip install \"epythet==0.2.12\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "warnings": [],
+  "alignment": {
+    "aligned": true,
+    "notes": []
+  }
+}
