@@ -92,6 +92,7 @@ convention = "google"
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = [
+    "doodad",
     "tests",
 ]
 doctest_optionflags = [
