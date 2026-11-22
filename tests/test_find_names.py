@@ -2,7 +2,6 @@
 
 import ast
 
-import pandas as pd
 import pytest
 
 from doodad.find_names import (
@@ -78,6 +77,10 @@ def test_value_normalizer_cases():
     assert dflt_value_normalizer(3) == 3
     assert isinstance(dflt_value_normalizer("x = 1"), ast.AST)
     assert dflt_value_normalizer("not python )(") == "not python )("
+
+
+def test_value_normalizer_dataframe():
+    pd = pytest.importorskip("pandas")  # optional dependency
     assert dflt_value_normalizer(pd.DataFrame({"a": [1, 2]})) == {"a": 1}
 
 
