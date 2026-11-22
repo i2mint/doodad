@@ -95,3 +95,13 @@ def test_unique_kvs_keeps_first_example_value():
 def test_names_from_a_list_of_dicts_are_flattened():
     assert list(yield_names_from_vk([{"a": 1}, {"b": 2}])) == ["a", "b"]
     assert list(yield_names_and_values_from_vk([{"a": 1}, {"b": 2}])) == [("a", 1), ("b", 2)]
+
+
+def test_names_of_a_nested_function_object_are_extracted():
+    """The source of a nested function is indented: it is dedented before parsing (doodad#6)."""
+    from doodad.find_names import extract_names_from_code
+
+    def outer_fn(alpha, beta=2):
+        return alpha + beta
+
+    assert list(extract_names_from_code(outer_fn)) == ['outer_fn', 'alpha', 'beta']
