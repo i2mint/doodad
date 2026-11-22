@@ -1,4 +1,4 @@
-> built 2026-11-22 22:16 UTC from ba83497 (master) · doodad 0.1.8. Details: build_info.json
+> built 2026-11-22 23:20 UTC from 3224d9e (master) · doodad 0.1.9. Details: build_info.json
 
 # index.html.md
 
@@ -168,18 +168,16 @@ Returns a function that checks if an object is an instance of any of the target_
 
 # About this build
 
-This documentation was built on **2026-11-22 22:16 UTC** from commit <a href="https://github.com/i2mint/doodad/commit/ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55"><code>ba83497</code></a> on branch <code>master</code>, for **doodad 0.1.8** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 23:20 UTC** from commit <a href="https://github.com/i2mint/doodad/commit/3224d9e9c7513159a6ff4e4c725a2a00e13a99e8"><code>3224d9e</code></a> on branch <code>master</code>, for **doodad 0.1.9** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.1.8) is behind the latest release on PyPI (0.1.9): `pip install doodad` gives newer code than these docs describe.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                      |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/doodad/commit/ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55"><code>ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55</code></a> |
+| Commit              | <a href="https://github.com/i2mint/doodad/commit/3224d9e9c7513159a6ff4e4c725a2a00e13a99e8"><code>3224d9e9c7513159a6ff4e4c725a2a00e13a99e8</code></a> |
 | Branch              | <code>master</code>                                                                                                                                  |
 | Tags at this commit | none                                                                                                                                                 |
 | Working tree        | clean                                                                                                                                                |
@@ -190,9 +188,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/doodad</code>                                                                 |
-| Run          | <a href="https://github.com/i2mint/doodad/actions/runs/45076682545">45076682545</a>        |
+| Run          | <a href="https://github.com/i2mint/doodad/actions/runs/45082618435">45082618435</a>        |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55</code> (in the history of the built commit) |
+| Event commit | <code>3224d9e9c7513159a6ff4e4c725a2a00e13a99e8</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -217,13 +215,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/doodad/0.1.9/">0.1.9</a>, newer than the documented version (0.1.8).
+Latest release: <a href="https://pypi.org/project/doodad/0.1.9/">0.1.9</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/doodad && cd doodad
-git checkout ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55
+git checkout 3224d9e9c7513159a6ff4e4c725a2a00e13a99e8
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
