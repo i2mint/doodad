@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-22T20:59:58Z",
+  "built_at": "2026-11-22T22:16:50Z",
   "package": {
     "name": "doodad",
     "version": "0.1.8",
@@ -9,24 +9,24 @@
   },
   "git": {
     "available": true,
-    "commit": "cc73bf8a7441d41067f99cd64abce857e50ea922",
-    "short_commit": "cc73bf8",
+    "commit": "ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55",
+    "short_commit": "ba83497",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/doodad",
-    "commit_url": "https://github.com/i2mint/doodad/commit/cc73bf8a7441d41067f99cd64abce857e50ea922",
+    "commit_url": "https://github.com/i2mint/doodad/commit/ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/doodad",
-    "sha": "cc73bf8a7441d41067f99cd64abce857e50ea922",
+    "sha": "ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "45069426101",
-    "run_url": "https://github.com/i2mint/doodad/actions/runs/45069426101",
+    "run_id": "45076682545",
+    "run_url": "https://github.com/i2mint/doodad/actions/runs/45076682545",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -60,14 +60,16 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.8",
-    "relation": "same",
+    "latest": "0.1.9",
+    "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/doodad && cd doodad\ngit checkout cc73bf8a7441d41067f99cd64abce857e50ea922\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/doodad && cd doodad\ngit checkout ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": true,
-    "notes": []
+    "aligned": false,
+    "notes": [
+      "The documented version (0.1.8) is behind the latest release on PyPI (0.1.9): `pip install doodad` gives newer code than these docs describe."
+    ]
   }
 }

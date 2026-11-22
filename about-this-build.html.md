@@ -2,16 +2,18 @@
 
 # About this build
 
-This documentation was built on **2026-11-22 20:59 UTC** from commit <a href="https://github.com/i2mint/doodad/commit/cc73bf8a7441d41067f99cd64abce857e50ea922"><code>cc73bf8</code></a> on branch <code>master</code>, for **doodad 0.1.8** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 22:16 UTC** from commit <a href="https://github.com/i2mint/doodad/commit/ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55"><code>ba83497</code></a> on branch <code>master</code>, for **doodad 0.1.8** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.8) is behind the latest release on PyPI (0.1.9): `pip install doodad` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                      |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/doodad/commit/cc73bf8a7441d41067f99cd64abce857e50ea922"><code>cc73bf8a7441d41067f99cd64abce857e50ea922</code></a> |
+| Commit              | <a href="https://github.com/i2mint/doodad/commit/ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55"><code>ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55</code></a> |
 | Branch              | <code>master</code>                                                                                                                                  |
 | Tags at this commit | none                                                                                                                                                 |
 | Working tree        | clean                                                                                                                                                |
@@ -22,9 +24,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/doodad</code>                                                                 |
-| Run          | <a href="https://github.com/i2mint/doodad/actions/runs/45069426101">45069426101</a>        |
+| Run          | <a href="https://github.com/i2mint/doodad/actions/runs/45076682545">45076682545</a>        |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>cc73bf8a7441d41067f99cd64abce857e50ea922</code> (in the history of the built commit) |
+| Event commit | <code>ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -49,13 +51,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/doodad/0.1.8/">0.1.8</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/doodad/0.1.9/">0.1.9</a>, newer than the documented version (0.1.8).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/doodad && cd doodad
-git checkout cc73bf8a7441d41067f99cd64abce857e50ea922
+git checkout ba834974cb4ebfd2b5a43f69b8ea8bd731ad7c55
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
