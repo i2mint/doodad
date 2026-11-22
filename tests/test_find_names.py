@@ -27,7 +27,7 @@ square = lambda p, q: p * q
 def test_extract_names_from_code():
     names = list(extract_names_from_code(CODE))
     assert sorted(names) == sorted(
-        ["x", "y", "z", "func", "a", "b", "local_var", "p", "q"]
+        ["x", "y", "z", "func", "a", "b", "local_var", "square", "p", "q"]
     )
     assert names.index("x") < names.index("func")
 
@@ -41,20 +41,10 @@ def test_extract_names_accepts_an_object_with_source():
     assert names[:3] == ["_sample", "alpha", "beta"]
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="a module-level `name = lambda ...` is dropped: the 'is it local' test looks for "
-    "a Lambda anywhere inside the assignment itself, including its own right-hand side",
-)
 def test_module_level_lambda_assignment_name_is_kept():
     assert "square" in list(extract_names_from_code(CODE))
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="include_locals=False does not exclude locals: the ancestor test walks the "
-    "assignment's own subtree instead of its enclosing scopes (known TODO)",
-)
 def test_include_locals_false_excludes_function_locals():
     assert "local_var" not in list(extract_names_from_code(CODE, include_locals=False))
 
@@ -102,11 +92,6 @@ def test_unique_kvs_keeps_first_example_value():
     assert out == {"a": 1, "b": 2, "c": 3}
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="for a non-dict iterable, `yield from map(f, v)` yields generator objects "
-    "instead of the nested names",
-)
 def test_names_from_a_list_of_dicts_are_flattened():
     assert list(yield_names_from_vk([{"a": 1}, {"b": 2}])) == ["a", "b"]
     assert list(yield_names_and_values_from_vk([{"a": 1}, {"b": 2}])) == [("a", 1), ("b", 2)]

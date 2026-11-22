@@ -84,7 +84,7 @@ def parsed_ast(code):
 # TODO: Variadic args and kwargs are not extracted correctly
 # TODO: Plug-in architecture (routing) to specify what kinds of names to extract
 #   (e.g. functions, variables, arguments etc.)
-def extract_names_from_code(code, *, include_locals=False):
+def extract_names_from_code(code, *, include_locals=True):
     """
     Extracts all the names (variables, functions, etc.) from a piece of code.
 
@@ -98,6 +98,12 @@ def extract_names_from_code(code, *, include_locals=False):
     >>> list(extract_names_from_code(code_string))
     ['foo', 'a', 'b', 'this_is_a_local_variable']
 
+    Locals (assignments inside a function body) are included by default; pass
+    ``include_locals=False`` to leave them out:
+
+    >>> list(extract_names_from_code(code_string, include_locals=False))
+    ['foo', 'a', 'b']
+
     Could also give a python object directly (as long as the source code can be
     extracted from it through ``inspect.getsource``, which rules out builtins and
     modules frozen into the interpreter, such as ``os.path``):
@@ -109,33 +115,36 @@ def extract_names_from_code(code, *, include_locals=False):
 
     """
     _parsed_ast = parsed_ast(code)
+    scopes = (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)
+
+    def _is_local(node, parents):
+        # local = lives inside a function/lambda body, i.e. an *enclosing* scope
+        # (not the assignment's own subtree)
+        node = parents.get(node)
+        while node is not None:
+            if isinstance(node, scopes):
+                return True
+            node = parents.get(node)
+        return False
+
+    parents = {
+        child: parent
+        for parent in ast.walk(_parsed_ast)
+        for child in ast.iter_child_nodes(parent)
+    }
 
     for node in ast.walk(_parsed_ast):
         # Extracting variable names
         if isinstance(node, ast.Assign):
+            if not include_locals and _is_local(node, parents):
+                continue
             for target in node.targets:
                 if isinstance(target, ast.Name):
-                    # Check if we should include local variables
-                    if include_locals or not any(
-                        isinstance(
-                            ancestor,
-                            (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda),
-                        )
-                        for ancestor in ast.walk(node)
-                    ):
-                        yield target.id
+                    yield target.id
                 elif isinstance(target, ast.Tuple):  # Handling multiple assignments
                     for elt in target.elts:
                         if isinstance(elt, ast.Name):
-                            # Check if we should include local variables
-                            if include_locals or not any(
-                                isinstance(
-                                    ancestor,
-                                    (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda),
-                                )
-                                for ancestor in ast.walk(node)
-                            ):
-                                yield elt.id
+                            yield elt.id
         # Extracting function argument names
         elif isinstance(node, ast.FunctionDef):
             yield node.name  # name of the function
@@ -168,9 +177,8 @@ lambda p, z: p + z
         "p",
         "z",
     ]
-    # TODO: Make this work:
-    # result = list(extract_names_from_code(code_sample, include_locals=False))
-    # assert result == ['x', 'y', 'z', 'func', 'a', 'b', 'p', 'z']
+    result = list(extract_names_from_code(code_sample, include_locals=False))
+    assert result == ["x", "y", "z", "func", "a", "b", "p", "z"]
 
 
 # ---------------------------- Finding names in data ----------------------------
@@ -199,8 +207,9 @@ def yield_names_from_vk(
             # yield from yield_names_from_vk(vv, k)
     # elif isinstance(v, pd.DataFrame):
     #     yield from v
-    elif isinstance(v, Iterable):
-        yield from map(_yield_names_from_vk, v)
+    elif isinstance(v, Iterable) and not isinstance(v, (str, bytes)):
+        for item in v:
+            yield from _yield_names_from_vk(item)
     else:
         yield from ()
 
@@ -248,8 +257,9 @@ def yield_names_and_values_from_vk(
                 yield from _yield_names_and_values_from_vk(vv, k)
             elif isinstance(k, str):
                 yield k, vv
-    elif isinstance(v, Iterable):
-        yield from map(_yield_names_and_values_from_vk, v)
+    elif isinstance(v, Iterable) and not isinstance(v, (str, bytes)):
+        for item in v:
+            yield from _yield_names_and_values_from_vk(item)
     else:
         yield from ()
 
