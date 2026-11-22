@@ -71,9 +71,11 @@ def parsed_ast(code):
     except Exception as e:
         # If it can't be parsed assume we can get the source code from it and parse that
         import inspect
+        from textwrap import dedent
 
         obj = code  # code is just some object from which we want the source code
-        code_str = inspect.getsource(obj)
+        # dedent: the source of a nested function or method is indented
+        code_str = dedent(inspect.getsource(obj))
         parsed_ast = ast.parse(code_str)
     return parsed_ast
 
