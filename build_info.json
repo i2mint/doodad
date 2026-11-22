@@ -1,39 +1,39 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-03T14:24:44Z",
+  "built_at": "2026-11-22T20:59:58Z",
   "package": {
     "name": "doodad",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "display_name": "doodad",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "72cac7524ce7b80e09c8b980f2f23a1e1e1570ce",
-    "short_commit": "72cac75",
+    "commit": "cc73bf8a7441d41067f99cd64abce857e50ea922",
+    "short_commit": "cc73bf8",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/doodad",
-    "commit_url": "https://github.com/i2mint/doodad/commit/72cac7524ce7b80e09c8b980f2f23a1e1e1570ce",
+    "commit_url": "https://github.com/i2mint/doodad/commit/cc73bf8a7441d41067f99cd64abce857e50ea922",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/doodad",
-    "sha": "72cac7524ce7b80e09c8b980f2f23a1e1e1570ce",
+    "sha": "cc73bf8a7441d41067f99cd64abce857e50ea922",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "37129407661",
-    "run_url": "https://github.com/i2mint/doodad/actions/runs/37129407661",
+    "run_id": "45069426101",
+    "run_url": "https://github.com/i2mint/doodad/actions/runs/45069426101",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.12",
-    "sphinx": "9.1.0",
+    "epythet": "0.2.23",
+    "sphinx": "9.1.1",
     "docutils": "0.22.4",
-    "python": "3.12.14"
+    "python": "3.12.16"
   },
   "config": {
     "theme": "auto",
@@ -60,11 +60,11 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.7",
+    "latest": "0.1.8",
     "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/doodad && cd doodad\ngit checkout 72cac7524ce7b80e09c8b980f2f23a1e1e1570ce\npip install \"epythet==0.2.12\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/doodad && cd doodad\ngit checkout cc73bf8a7441d41067f99cd64abce857e50ea922\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": true,
