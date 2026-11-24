@@ -105,3 +105,20 @@ def test_names_of_a_nested_function_object_are_extracted():
         return alpha + beta
 
     assert list(extract_names_from_code(outer_fn)) == ['outer_fn', 'alpha', 'beta']
+
+
+def test_a_nested_function_with_a_column_zero_string_line_is_parsed():
+    """A multi-line string with a line at column 0 leaves dedent nothing to remove:
+    the indented source must still parse."""
+    from doodad.find_names import extract_names_from_code
+
+    def outer():
+        def nested(a, b):
+            """Docstring
+continuation at col 0"""
+            x = 1
+            return a
+
+        return nested
+
+    assert list(extract_names_from_code(outer())) == ["nested", "a", "b", "x"]
