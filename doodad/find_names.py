@@ -71,13 +71,30 @@ def parsed_ast(code):
     except Exception as e:
         # If it can't be parsed assume we can get the source code from it and parse that
         import inspect
-        from textwrap import dedent
 
         obj = code  # code is just some object from which we want the source code
-        # dedent: the source of a nested function or method is indented
-        code_str = dedent(inspect.getsource(obj))
-        parsed_ast = ast.parse(code_str)
+        parsed_ast = _parse_indented_source(inspect.getsource(obj))
     return parsed_ast
+
+
+def _parse_indented_source(source):
+    """Parse the source of a possibly nested function or method, which is indented.
+
+    ``textwrap.dedent`` removes the common indent, but finds none when a multi-line
+    string (e.g. a docstring) has a line starting at column 0. Then the source is
+    parsed as the body of an ``if`` block, where any consistent indent is valid.
+
+    >>> src = "    def f(a):\\n        '''doc\\ncontinued'''\\n        return a\\n"
+    >>> [type(node).__name__ for node in _parse_indented_source(src).body]
+    ['FunctionDef']
+    """
+    from textwrap import dedent
+
+    try:
+        return ast.parse(dedent(source))
+    except IndentationError:
+        block = ast.parse("if 1:\n" + source).body[0]
+        return ast.Module(body=block.body, type_ignores=[])
 
 
 # ---------------------------- Finding names in code ----------------------------
