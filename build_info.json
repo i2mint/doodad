@@ -1,36 +1,36 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-22T23:20:47Z",
+  "built_at": "2026-11-24T01:17:16Z",
   "package": {
     "name": "doodad",
-    "version": "0.1.9",
+    "version": "0.1.10",
     "display_name": "doodad",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "3224d9e9c7513159a6ff4e4c725a2a00e13a99e8",
-    "short_commit": "3224d9e",
+    "commit": "297fab73d46d3104dfca2a94274946a4f69cc396",
+    "short_commit": "297fab7",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/doodad",
-    "commit_url": "https://github.com/i2mint/doodad/commit/3224d9e9c7513159a6ff4e4c725a2a00e13a99e8",
+    "commit_url": "https://github.com/i2mint/doodad/commit/297fab73d46d3104dfca2a94274946a4f69cc396",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/doodad",
-    "sha": "3224d9e9c7513159a6ff4e4c725a2a00e13a99e8",
+    "sha": "297fab73d46d3104dfca2a94274946a4f69cc396",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "45082618435",
-    "run_url": "https://github.com/i2mint/doodad/actions/runs/45082618435",
+    "run_id": "45303725266",
+    "run_url": "https://github.com/i2mint/doodad/actions/runs/45303725266",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.23",
+    "epythet": "0.2.25",
     "sphinx": "9.1.1",
     "docutils": "0.22.4",
     "python": "3.12.16"
@@ -60,11 +60,11 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.9",
+    "latest": "0.1.10",
     "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/doodad && cd doodad\ngit checkout 3224d9e9c7513159a6ff4e4c725a2a00e13a99e8\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/doodad && cd doodad\ngit checkout 297fab73d46d3104dfca2a94274946a4f69cc396\npip install \"epythet==0.2.25\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": true,
